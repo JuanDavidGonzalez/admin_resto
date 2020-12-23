@@ -18,16 +18,10 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/g">
+          <router-link class="nav-link" to="/buyers">
             <i class="fa fa-shopping-cart"></i>
             Compradores
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">
-            <i class="fa fa-list"></i>
-            Transacciones
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>

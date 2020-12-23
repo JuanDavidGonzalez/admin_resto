@@ -3,6 +3,7 @@ import Router from "vue-router";
 
 import Home from "@/views/Home";
 import Products from "@/views/Products";
+import Buyers from "@/views/Buyers";
 import Error from "@/views/Error";
 
 Vue.use(Router);
@@ -14,6 +15,7 @@ export default new Router({
   routes: [
     { path: "/", name: "home", component: Home },
     { path: "/products", name: "products", component: Products },
+    { path: "/buyers", name: "buyers", component: Buyers },
     { path: "*", name: "error", component: Error },
   ],
 });
