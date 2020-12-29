@@ -18,6 +18,6 @@ export default new Router({
     { path: "/products", name: "products", component: Products },
     { path: "/buyers", name: "buyers", component: Buyers },
     { path: "/buyer/:id", name: "buyer-detail", component: BuyerDetail },
-    { path: "*", name: "error", component: Error },
-  ],
+    { path: "*", name: "error", component: Error }
+  ]
 });

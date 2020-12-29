@@ -1,31 +1,40 @@
 <template>
   <div>
-    <div
-      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-    >
-      <h1 class="h2">Productos</h1>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-striped table-hover caption-top">
-        <caption>
-          Listado De Productos Almacenados
-        </caption>
-        <thead class="table-dark">
-          <tr class="text-center">
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Precio</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="product in products" :key="product.uid">
-            <td class="text-center">{{ product.id }}</td>
-            <td class="text-left">{{ product.name }}</td>
-            <td class="text-md-end">$ {{ product.price }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        :size="100"
+        :width="10"
+        color="info"
+      ></v-progress-circular>
+    </v-overlay>
+    <v-container my-3>
+      <v-card elevation="24">
+        <v-card-title color="indigo">
+          <h5>Productos Cargados</h5>
+        </v-card-title>
+        <v-card-text>
+          <v-simple-table dense>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-center">#</th>
+                  <th class="text-center">Nombre</th>
+                  <th class="text-center">Precio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="product in products" :key="product.uid">
+                  <td class="text-center">{{ product.id }}</td>
+                  <td class="text-left">{{ product.name }}</td>
+                  <td class="text-md-end">$ {{ product.price }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-card-text>
+      </v-card>
+    </v-container>
   </div>
 </template>
 
@@ -36,11 +45,21 @@ export default {
   data() {
     return {
       products: [],
+      overlay: true,
     };
   },
 
   created() {
-    api.getProducts().then((resp) => (this.products = resp));
+    api
+      .getProducts()
+      .then((resp) => {
+        this.products = resp;
+        this.overlay = false;
+      })
+      .catch((error) => {
+        this.overlay = false;
+        console.log(error);
+      });
   },
 };
 </script>

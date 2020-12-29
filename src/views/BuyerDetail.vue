@@ -1,81 +1,114 @@
 <template>
   <div>
-    <div
-      class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-    >
-      <h1 class="h2">Detalles</h1>
-    </div>
-
-    <div class="container">
-      <!-- <div class="py-5 text-center">
-        <h2>Cargar Datos <i class="fa fa-upload"></i></h2>
-      </div> -->
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h5>Detalles comprador</h5>
+    <v-container fluid>
+      <v-row>
+        <v-col md="4">
+          <v-card elevation="10">
+            <v-list disabled>
+              <v-subheader>Detalles</v-subheader>
+              <v-list-item-group color="primary">
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon> mdi-cellphone-link</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      ><strong>Dispositivo: </strong>
+                      {{ buyer ? buyer.device : "__" }}</v-list-item-title
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon> mdi-web</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      ><strong> IP: </strong
+                      >{{ buyer ? buyer.ip : "__" }}</v-list-item-title
+                    >
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+            <div class="text-center">
+              <v-btn color="indigo" class="ma-2 white--text" to="/buyers">
+                <v-icon left dark>
+                  mdi-arrow-left-bold
+                </v-icon>
+                Atras
+              </v-btn>
             </div>
-            <div class="card-body">
-              <div v-if="buyer">
-                <ul>
-                  <!-- <li>Comprador {{ buyer.buyer }}</li> -->
-                  <li><strong>Dispositivo</strong>{{ buyer.device }}</li>
-                  <li><strong>IP:</strong>{{ buyer.ip }}</li>
-                  <!-- <li>{{ buyer.productids }}</li> -->
-                </ul>
-                <div class="table-responsive">
-                  <table
-                    class="table table-striped table-hover caption-top table-bordered"
-                  >
-                    <caption>
-                      Historial de Compras
-                    </caption>
-                    <thead class="table-dark">
-                      <tr class="text-center">
-                        <th>#</th>
-                        <th>Producto</th>
-                        <th>Precio</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(product, index) in products" :key="index">
-                        <td class="text-center">{{ product.id }}</td>
-                        <td class="text-right">{{ product.name }}</td>
-                        <td class="text-left">$ {{ product.price }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="table-responsive">
-                  <table class="table table-striped table-hover caption-top">
-                    <caption>
-                      Compradores Misma Ip
-                    </caption>
-                    <thead class="table-dark">
-                      <tr class="text-center">
-                        <th>#</th>
-                        <th>Comprador</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(buyer, index) in otherBuyers" :key="index">
-                        <td class="text-center">{{ buyer.id }}</td>
-                        <td class="text-center">{{ buyer.name }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div v-else class="alert alert-warning">
-                No hay información disponible!
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </v-card>
+        </v-col>
+        <v-col md="8">
+          <v-row class="mb-6">
+            <v-col md="12">
+              <v-card elevation="10">
+                <v-card-title>
+                  <h5>Historial de compras</h5>
+                </v-card-title>
+                <v-card-text>
+                  <v-simple-table dense v-if="buyer">
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th class="text-center">#</th>
+                          <th class="text-center">Producto</th>
+                          <th class="text-center">Precio</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(product, index) in products" :key="index">
+                          <td class="text-center">{{ product.id }}</td>
+                          <td class="text-left">{{ product.name }}</td>
+                          <td class="text-right">$ {{ product.price }}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                  <v-alert v-else border="left" color="indigo" dark>
+                    No hay información disponible!
+                  </v-alert>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col md="12">
+              <v-card elevation="10">
+                <v-card-title>
+                  <h5>Compradores misma ip</h5>
+                </v-card-title>
+                <v-card-text>
+                  <v-simple-table dense v-if="buyer">
+                    <template>
+                      <thead>
+                        <tr>
+                          <th class="text-center">#</th>
+                          <th class="text-center">Comprador</th>
+                          <th class="text-center">Edad</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="(buyer, index) in otherBuyers" :key="index">
+                          <td class="text-center">{{ buyer.id }}</td>
+                          <td class="text-left">{{ buyer.name }}</td>
+                          <td class="text-center">{{ buyer.age }}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                  <v-alert v-else border="left" color="indigo" dark>
+                    No hay información disponible!
+                  </v-alert>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -86,7 +119,7 @@ export default {
   name: "BuyerDetail",
   data() {
     return {
-      buyer: {},
+      buyer: null,
       products: [],
       otherBuyers: [],
     };
@@ -99,21 +132,28 @@ export default {
   methods: {
     getBuyer() {
       const id = this.$route.params.id;
-      api.getBuyerDetail(id).then((resp) => {
-        this.buyer = resp[0];
+      api
+        .getBuyerDetail(id)
+        .then((resp) => {
+          if (resp[0]) {
+            this.buyer = resp[0];
 
-        if (this.buyer.products) {
-          this.buyer.products.forEach((element) => {
-            api.getProduct(element).then((resp) => this.products.push(resp[0]));
-          });
-        }
+            if (this.buyer.products) {
+              this.buyer.products.forEach((element) => {
+                api
+                  .getProduct(element)
+                  .then((resp) => this.products.push(resp[0]));
+              });
+            }
 
-        if (this.buyer.ip) {
-          api
-            .getOtherBuyer(this.buyer.ip)
-            .then((resp) => (this.otherBuyers = resp));
-        }
-      });
+            if (this.buyer.ip) {
+              api
+                .getOtherBuyer(this.buyer.ip)
+                .then((resp) => (this.otherBuyers = resp));
+            }
+          }
+        })
+        .catch((error) => console.log(error));
     },
   },
 };
