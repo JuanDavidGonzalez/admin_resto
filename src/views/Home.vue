@@ -87,15 +87,21 @@ export default {
 
   methods: {
     getData() {
-      console.log(this.search_params.type);
-      let newDate = new Date(this.search_params.date);
+      let newDate = new Date();
+      if (this.search_params.date) {
+        newDate = new Date(this.search_params.date);
+      }
+
       newDate = newDate / 1000;
-      if (this.search_params.type == "buyers") {
-        api.loadBuyers(newDate).then((resp) => {
+
+      if (this.search_params.type !== -1) {
+        api.loadData(newDate, this.search_params.type).then((resp) => {
           console.log(resp);
           Swal.fire("Ok", resp.message, "success");
           this.search_params = { date: null, type: -1 };
         });
+      } else {
+        Swal.fire("Upss!", "Debe Seleccionar un tipo de dato", "error");
       }
     },
   },

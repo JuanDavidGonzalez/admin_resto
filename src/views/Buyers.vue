@@ -15,13 +15,22 @@
             <th>#</th>
             <th>Nombre</th>
             <th>Edad</th>
+            <th>Accion</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="buyer in buyers" :key="buyer.id">
+          <tr v-for="buyer in buyers" :key="buyer.uid">
             <td class="text-center">{{ buyer.id }}</td>
             <td class="text-left">{{ buyer.name }}</td>
             <td class="text-center">{{ buyer.age }}</td>
+            <td class="text-center">
+              <button
+                class="btn btn-primary btn-sm btn-rounded"
+                @click="goToDetail(buyer.id)"
+              >
+                <i class="fa fa-eye"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -31,16 +40,27 @@
 
 <script>
 import api from "@/api";
+
 export default {
   name: "Buyers",
+  // components: {
+  //   Modal,
+  // },
   data() {
     return {
       buyers: [],
+      showModal: false,
     };
   },
 
   created() {
     api.getBuyers().then((resp) => (this.buyers = resp));
+  },
+
+  methods: {
+    goToDetail(id) {
+      this.$router.push({ name: "buyer-detail", params: { id } });
+    },
   },
 };
 </script>
